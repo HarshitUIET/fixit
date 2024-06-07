@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { AppBar, Box, Button, IconButton, Toolbar, Typography, Drawer, Stack } from '@mui/material';
 import { lightBlack } from '../constants/color';
-import { Logout, Menu as MenuIcon } from '@mui/icons-material';
+import {  Menu as MenuIcon } from '@mui/icons-material';
 import DisabledByDefaultIcon from '@mui/icons-material/DisabledByDefault';
 import { useNavigate } from 'react-router-dom';
+import Header from '../layout/Header';
 
 const Home = ({user,setUser}) => {
 
@@ -35,17 +36,19 @@ const Home = ({user,setUser}) => {
   return (
     <>
       <Box height={'4rem'} sx={{ flexGrow: 1 }}>
-        <AppBar position="static" sx={{ bgcolor: lightBlack }}>
+        <AppBar position="fixed" sx={{ bgcolor: lightBlack,py:1 }}>
           <Toolbar
             sx={{
               display: 'flex',
               justifyContent: 'space-between',
-              margin: '0 3rem ',
+              margin: {
+                md: '0 3rem',
+              }
             }}
           >
-            <Typography variant="h6">
+            <Typography variant="h4">
               <IconButton color="inherit">
-                <DisabledByDefaultIcon sx={{ fontSize: 40, color: 'white' }} />
+                <DisabledByDefaultIcon sx={{ fontSize: 50, color: 'white' }} />
               </IconButton>
               fiXit
             </Typography>
@@ -57,12 +60,12 @@ const Home = ({user,setUser}) => {
                 },
               }}
             >
-              <Button onClick={navigateToAboutUs} sx={{ color: 'white', marginRight: '2rem', textTransform: 'none' }}>About Us</Button>
+              <Button onClick={navigateToAboutUs} sx={{ color: 'white', marginRight: '2rem', textTransform: 'none',fontSize:'20px' }}>About Us</Button>
               {
                 user ? (
-                  <Button onClick={LogoutHandler} sx={{ color: 'white', textTransform: 'none' }}>Logout</Button>
+                  <Button onClick={LogoutHandler} sx={{ color: 'white', textTransform: 'none',fontSize:'20px'  }}>Logout</Button>
                 ) : (
-                  <Button onClick={navigateToLogin} sx={{ color: 'white', textTransform: 'none' }}>Login</Button>
+                  <Button onClick={navigateToLogin} sx={{ color: 'white', textTransform: 'none',fontSize:'20px'  }}>Login</Button>
                 )
               }
             </Box>
@@ -82,6 +85,8 @@ const Home = ({user,setUser}) => {
         </AppBar>
       </Box>
 
+      <Header user={user}/>
+
       <Drawer anchor="right" open={drawerOpen} onClose={MenuHandler}>
         <Box
           sx={{
@@ -95,12 +100,12 @@ const Home = ({user,setUser}) => {
           onKeyDown={MenuHandler}
         >
           <Stack spacing={2}>
-            <Button onClick={navigateToAboutUs} variant='contained'  sx={{ color: 'white', textTransform: 'none' }}>About Us</Button>
+            <Button onClick={navigateToAboutUs} variant='contained'  sx={{ color: 'white', textTransform: 'none',fontSize:'20px'  }}>About Us</Button>
              {
                 user ? (
-                  <Button onClick={LogoutHandler} variant='contained'  sx={{ color: 'white', textTransform: 'none' }}>Logout</Button>
+                  <Button onClick={LogoutHandler} variant='contained'  sx={{ color: 'white', textTransform: 'none',fontSize:'20px'  }}>Logout</Button>
                 ) : (
-                  <Button onClick={navigateToLogin} variant='contained'  sx={{ color: 'white', textTransform: 'none' }}>Login</Button>
+                  <Button onClick={navigateToLogin} variant='contained'  sx={{ color: 'white', textTransform: 'none',fontSize:'20px'  }}>Login</Button>
                 )
              }
           </Stack>

@@ -1,0 +1,14 @@
+.animated-text span {
+    opacity: 0;
+    animation: fillLetter 0.5s forwards;
+  }
+  
+  @keyframes fillLetter {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
