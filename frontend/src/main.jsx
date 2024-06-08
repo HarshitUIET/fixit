@@ -3,16 +3,22 @@ import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './main.css'
 import { CssBaseline } from '@mui/material'
-import { HelmetProvider } from 'react-helmet-async'
+import { Auth0Provider } from '@auth0/auth0-react';
+import {Toaster} from 'react-hot-toast';
 
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <HelmetProvider>
-    <CssBaseline>
-       <div>
-        <App/>
-       </div>
+  <Auth0Provider
+  domain="dev-ptlqemiqyz1u155v.us.auth0.com"
+  clientId="PeGZKSpgNLQ5shf5LcOZUzYV9Xl51C7E"
+  authorizationParams={{
+    redirect_uri: window.location.origin
+  }}
+  >
+     <CssBaseline>
+       <App/>
+       <Toaster/>
     </CssBaseline>
-  </HelmetProvider>
+  </Auth0Provider>
 )

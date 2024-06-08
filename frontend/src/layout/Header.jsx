@@ -7,9 +7,13 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import Test from '../components/specific/Test';
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const Header = ({ user }) => {
 
+
+     const {isAuthenticated} = useAuth0();
+    
     const navigate = useNavigate();
     const theme = useTheme();
     const isMdScreen = useMediaQuery(theme.breakpoints.up('md'));
@@ -63,7 +67,7 @@ const Header = ({ user }) => {
                 </Button>
             </Box>
             {
-                user && <Test />
+                isAuthenticated && <Test />
             }
 
         </>

@@ -1,17 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AppBar, Box, Button, IconButton, Toolbar, Typography, Drawer, Stack } from '@mui/material';
-import { lightBlack } from '../constants/color';
-import {  Menu as MenuIcon } from '@mui/icons-material';
+import { lightBlack,white } from '../constants/color';
+import { Menu as MenuIcon } from '@mui/icons-material';
 import DisabledByDefaultIcon from '@mui/icons-material/DisabledByDefault';
 import { useNavigate } from 'react-router-dom';
 import Header from '../layout/Header';
+import { useAuth0 } from '@auth0/auth0-react';
 
-const Home = ({user,setUser}) => {
+
+const Home = ({ user, setUser }) => {
+  const { isAuthenticated, logout } = useAuth0();
 
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const navigate = useNavigate();
 
-  
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  const MoveToHandler = () => {
+    navigate('/');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const MenuHandler = () => {
     setDrawerOpen(!drawerOpen);
@@ -24,19 +43,20 @@ const Home = ({user,setUser}) => {
 
   const navigateToLogin = () => {
     navigate('/login');
-  }
+  };
 
-  const LogoutHandler = () => {
-       setUser(false);
-      console.log('Logged out');
-  }
-
-  
+  const logoutHandler = () => {
+    logout();
+  };
 
   return (
     <>
       <Box height={'4rem'} sx={{ flexGrow: 1 }}>
-        <AppBar position="fixed" sx={{ bgcolor: lightBlack,py:1 }}>
+        <AppBar position="fixed" sx={{
+           bgcolor: isScrolled ? white : lightBlack, 
+           py: 1 ,
+           color : isScrolled ? lightBlack : white
+           }}>
           <Toolbar
             sx={{
               display: 'flex',
@@ -46,9 +66,14 @@ const Home = ({user,setUser}) => {
               }
             }}
           >
-            <Typography variant="h4">
-              <IconButton color="inherit">
-                <DisabledByDefaultIcon sx={{ fontSize: 50, color: 'white' }} />
+            <Typography variant="h4" sx={{ cursor: 'pointer' }} onClick={MoveToHandler}>
+              <IconButton onClick={MoveToHandler} color="inherit">
+                <DisabledByDefaultIcon 
+                sx={{ 
+                  fontSize: 50,
+                   color: isScrolled ? lightBlack : white
+                  }}
+                   />
               </IconButton>
               fiXit
             </Typography>
@@ -60,12 +85,50 @@ const Home = ({user,setUser}) => {
                 },
               }}
             >
-              <Button onClick={navigateToAboutUs} sx={{ color: 'white', marginRight: '2rem', textTransform: 'none',fontSize:'20px' }}>About Us</Button>
+              <Button variant='contained'   onClick={navigateToAboutUs}
+               sx={{ 
+                color: isScrolled ? lightBlack : white ,
+                bgcolor : isScrolled ? white : lightBlack,
+                 textTransform: 'none',
+                  fontSize: '20px',
+                  marginRight:"2rem",
+
+                  '&:hover' : {
+                    bgcolor : 'gray'
+                  }
+                 }}
+              >
+                About Us
+              </Button>
               {
-                user ? (
-                  <Button onClick={LogoutHandler} sx={{ color: 'white', textTransform: 'none',fontSize:'20px'  }}>Logout</Button>
+                isAuthenticated ? (
+                  <Button variant='contained'  onClick={logoutHandler} 
+                  sx={{ 
+                    color: isScrolled ? lightBlack : white ,
+                    bgcolor : isScrolled ? white : lightBlack,
+                     textTransform: 'none',
+                      fontSize: '20px',
+                      '&:hover' : {
+                        bgcolor : 'gray'
+                      }
+                     }}
+                     >
+                      Logout
+                    </Button>
                 ) : (
-                  <Button onClick={navigateToLogin} sx={{ color: 'white', textTransform: 'none',fontSize:'20px'  }}>Login</Button>
+                  <Button onClick={navigateToLogin} 
+                  sx={{ 
+                    color: isScrolled ? lightBlack : white ,
+                    bgcolor : isScrolled ? white : lightBlack,
+                     textTransform: 'none',
+                      fontSize: '20px',
+                      '&:hover' : {
+                        bgcolor : 'gray'
+                      }
+                     }}
+                  >
+                    Login
+                    </Button>
                 )
               }
             </Box>
@@ -78,14 +141,19 @@ const Home = ({user,setUser}) => {
               }}
             >
               <IconButton color="inherit" onClick={MenuHandler}>
-                <MenuIcon sx={{ fontSize: 40, color: 'white' }} />
+                <MenuIcon
+                 sx={{ 
+                  fontSize: 40,
+                   color: isScrolled ? lightBlack : white
+                   }} 
+                 />
               </IconButton>
             </Box>
           </Toolbar>
         </AppBar>
       </Box>
 
-      <Header user={user}/>
+      <Header />
 
       <Drawer anchor="right" open={drawerOpen} onClose={MenuHandler}>
         <Box
@@ -93,21 +161,56 @@ const Home = ({user,setUser}) => {
             width: 250,
             padding: 2,
             bgcolor: lightBlack,
-            height: '100%', 
+            height: '100%',
           }}
           role="presentation"
           onClick={MenuHandler}
           onKeyDown={MenuHandler}
         >
           <Stack spacing={2}>
-            <Button onClick={navigateToAboutUs} variant='contained'  sx={{ color: 'white', textTransform: 'none',fontSize:'20px'  }}>About Us</Button>
-             {
-                user ? (
-                  <Button onClick={LogoutHandler} variant='contained'  sx={{ color: 'white', textTransform: 'none',fontSize:'20px'  }}>Logout</Button>
-                ) : (
-                  <Button onClick={navigateToLogin} variant='contained'  sx={{ color: 'white', textTransform: 'none',fontSize:'20px'  }}>Login</Button>
-                )
-             }
+            <Button onClick={navigateToAboutUs} variant='contained' 
+             sx={{ 
+              color:  lightBlack ,
+              bgcolor : white ,
+               textTransform: 'none',
+                fontSize: '20px',
+                '&:hover' : {
+                  bgcolor : 'gray'
+                }
+               }}
+            >
+              About Us
+              </Button>
+            {
+              isAuthenticated ? (
+                <Button onClick={logoutHandler} variant='contained'  sx={{ 
+                  color:  lightBlack ,
+                  bgcolor : white ,
+                   textTransform: 'none',
+                    fontSize: '20px',
+                    '&:hover' : {
+                      bgcolor : 'gray'
+                    }
+                   }}
+                   >
+                    Logout
+                  </Button>
+              ) : (
+                <Button onClick={navigateToLogin} variant='contained'
+                 sx={{ 
+                  color:  lightBlack ,
+                  bgcolor : white ,
+                   textTransform: 'none',
+                    fontSize: '20px',
+                    '&:hover' : {
+                      bgcolor : 'gray'
+                    }
+                   }}
+                   >
+                    Login
+                  </Button>
+              )
+            }
           </Stack>
         </Box>
       </Drawer>
