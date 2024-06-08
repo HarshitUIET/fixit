@@ -18,6 +18,7 @@ const App = () => {
   
   const {user,isAuthenticated} = useAuth0();
 
+
   return (
    <div >
        <BrowserRouter>

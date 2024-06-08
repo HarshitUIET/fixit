@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { AppBar, Box, Button, IconButton, Toolbar, Typography, Drawer, Stack } from '@mui/material';
+import { AppBar, Box, Button, IconButton, Toolbar, Typography, Drawer, Stack,Avatar } from '@mui/material';
 import { lightBlack,white } from '../constants/color';
 import { Menu as MenuIcon } from '@mui/icons-material';
 import DisabledByDefaultIcon from '@mui/icons-material/DisabledByDefault';
 import { useNavigate } from 'react-router-dom';
 import Header from '../layout/Header';
-import { useAuth0 } from '@auth0/auth0-react';
+import { User, useAuth0 } from '@auth0/auth0-react';
 
 
-const Home = ({ user, setUser }) => {
-  const { isAuthenticated, logout } = useAuth0();
+
+const Home = () => {
+  const {user, isAuthenticated, logout } = useAuth0();
 
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -92,7 +93,6 @@ const Home = ({ user, setUser }) => {
                  textTransform: 'none',
                   fontSize: '20px',
                   marginRight:"2rem",
-
                   '&:hover' : {
                     bgcolor : 'gray'
                   }
@@ -108,6 +108,7 @@ const Home = ({ user, setUser }) => {
                     bgcolor : isScrolled ? white : lightBlack,
                      textTransform: 'none',
                       fontSize: '20px',
+                      marginRight:'2rem',
                       '&:hover' : {
                         bgcolor : 'gray'
                       }
@@ -130,14 +131,33 @@ const Home = ({ user, setUser }) => {
                     Login
                     </Button>
                 )
+                
               }
+            
+              {
+              
+              isAuthenticated && (
+                <Avatar 
+                sx={{
+                    width:50,
+                    height:50,
+                    ObjectFit:"contain",
+                }}
+                src={user.picture}
+                />
+              )
+            
+           }
             </Box>
-            <Box
+             
+        
+             <Box
               sx={{
                 display: {
-                  xs: 'block',
+                  xs: 'flex',
                   md: 'none',
                 },
+                direction:'column'
               }}
             >
               <IconButton color="inherit" onClick={MenuHandler}>
@@ -148,7 +168,22 @@ const Home = ({ user, setUser }) => {
                    }} 
                  />
               </IconButton>
+              {
+              
+              isAuthenticated && (
+                <Avatar 
+                sx={{
+                    width:50,
+                    height:50,
+                    ObjectFit:"contain",
+                }}
+                src={user.picture}
+                />
+              )
+            
+           }
             </Box>
+          
           </Toolbar>
         </AppBar>
       </Box>
