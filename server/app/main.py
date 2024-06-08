@@ -27,6 +27,10 @@ class QuestionResponse(BaseModel):
     question: str
     answer: str
 
+@app.get('/')
+async def index():
+    return {"message":"hello"}
+
 @app.get("/questions", response_model=List[str])
 async def get_questions():
     return list(question_answers.keys())
