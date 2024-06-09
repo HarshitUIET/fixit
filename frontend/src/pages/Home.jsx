@@ -47,8 +47,11 @@ const Home = () => {
   };
 
   const logoutHandler = () => {
-    logout();
+    logout({
+      returnTo: 'https://fixit-7m4u.vercel.app/' // Replace with your Vercel-hosted home page URL
+    });
   };
+  
 
   return (
     <>
