@@ -14,7 +14,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     clientId="PeGZKSpgNLQ5shf5LcOZUzYV9Xl51C7E"
     authorizationParams={{
       redirect_uri: window.location.origin,
-      logoutUrl: window.location.origin 
+      logoutUrl: "https://fixit-7m4u.vercel.app/" 
     }}
   >
     <CssBaseline>
