@@ -10,15 +10,17 @@ import {Toaster} from 'react-hot-toast';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Auth0Provider
-  domain="dev-ptlqemiqyz1u155v.us.auth0.com"
-  clientId="PeGZKSpgNLQ5shf5LcOZUzYV9Xl51C7E"
-  authorizationParams={{
-    redirect_uri: window.location.origin
-  }}
+    domain="dev-ptlqemiqyz1u155v.us.auth0.com"
+    clientId="PeGZKSpgNLQ5shf5LcOZUzYV9Xl51C7E"
+    authorizationParams={{
+      redirect_uri: window.location.origin,
+      logoutUrl: window.location.origin 
+    }}
   >
-     <CssBaseline>
-       <App/>
-       <Toaster/>
+    <CssBaseline>
+      <App />
+      <Toaster />
     </CssBaseline>
   </Auth0Provider>
-)
+);
+
