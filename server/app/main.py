@@ -20,14 +20,14 @@ question_answers = {
 @app.middleware("http")
 async def add_cors_headers(request, call_next):
     response = await call_next(request)
-    response.headers["Access-Control-Allow-Origin"] = "https://fixit-zdxv.vercel.app, http://localhost:8000"
+    response.headers["Access-Control-Allow-Origin"] = "https://fixit-7m4u.vercel.app, http://localhost:8000"
     response.headers["Access-Control-Allow-Credentials"] = "true"
     response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
     response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
     return response
 
 origins = [
-    "https://fixit-zdxv.vercel.app",
+    "https://fixit-7m4u.vercel.app",
     "http://localhost:8000",
 ]
 
