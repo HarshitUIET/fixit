@@ -23,7 +23,7 @@ const Chat = () => {
       });
 
       console.log('Response Data:', res.data);
-      setResponse(res.data);
+      setResponse(res.data.answer);
       
     } catch (error) {
       console.error('An error occurred:', error.message);
