@@ -1,19 +1,32 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { questions } from '../constants/questions';
 import { Box, Button, Stack, Typography } from '@mui/material';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const Chat = () => {
+  const { getAccessTokenSilently } = useAuth0();
   const [response, setResponse] = useState('');
 
   const responseHandler = async (question) => {
     try {
-      console.log(encodeURIComponent(question));
-      const res = await fetch(`http://127.0.0.1:8000/answer/${encodeURIComponent(question)}`);
-      console.log(res);
-      const data = await res.json();
-      setResponse(data.answer);
+      const token = await getAccessTokenSilently();
+      console.log('Token:', token);
+      const encodedQuestion = encodeURIComponent(question);
+      console.log('Encoded Question:', encodedQuestion);
+      
+      const res = await axios.get(`https://fixit-zdxv.vercel.app/answer/${encodedQuestion}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      console.log('Response Data:', res.data);
+      setResponse(res.data);
+      
     } catch (error) {
-      console.error('Error fetching the response:', error);
+      console.error('An error occurred:', error.message);
     }
   };
 
